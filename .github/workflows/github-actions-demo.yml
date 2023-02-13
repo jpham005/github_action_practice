@@ -1,18 +1,54 @@
 name: GitHub Actions Demo
+
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+
+on:
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  Explore-GitHub-Actions:
+  build:
+  
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.14.0]
+    
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.6.0
+        with:
+          # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
+          node-version: ${{ matrix.node-version }}
+          # Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.
+          architecture: default
+          # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
+          cache: npm
+      - name: Build and Test
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+      
+  lint:
+  
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.14.0]
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.6.0
+        with:
+          # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
+          node-version: ${{ matrix.node-version }}
+          # Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.
+          architecture: default
+          # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
+          cache: npm
+      - name: Run lint
+        run: npm lint
