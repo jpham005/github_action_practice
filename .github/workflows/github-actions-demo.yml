@@ -33,24 +33,24 @@ jobs:
       - name: Test
         run: npm test
       
-#   lint:
+  lint:
   
-#     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     
-#     strategy:
-#       matrix:
-#         node-version: [18.14.0]
+    strategy:
+      matrix:
+        node-version: [18.14.0]
     
-#     steps:
-#       - uses: actions/checkout@v3
-#       - name: Setup Node.js environment
-#         uses: actions/setup-node@v3.6.0
-#         with:
-#           # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
-#           node-version: ${{ matrix.node-version }}
-#           # Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.
-#           architecture: default
-#           # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
-#           cache: npm
-#       - name: Run lint
-#         run: npm lint
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.6.0
+        with:
+          # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
+          node-version: ${{ matrix.node-version }}
+          # Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.
+          architecture: default
+          # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
+          cache: npm
+      - name: Run lint
+        run: npm lint
