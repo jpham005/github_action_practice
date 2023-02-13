@@ -18,11 +18,6 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.6.0
         with:
-          # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
-          node-version: latest
-          # Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.
-          architecture: default
-          # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
           cache: npm
       - name: Install Dependencies
         run: npm ci
